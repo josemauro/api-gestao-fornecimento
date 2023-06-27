@@ -1,8 +1,11 @@
 package com.accenture.gestaofornecimento.model;
 
+import java.util.Set;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 
 @Entity
 public class Fornecedor {
@@ -14,6 +17,9 @@ public class Fornecedor {
 
     @Column(nullable = false)
     private String email;
+    
+    @OneToMany(mappedBy = "fornecedor")
+    Set<Parceria> parceria;
 
     public String getId() {
         return id;
