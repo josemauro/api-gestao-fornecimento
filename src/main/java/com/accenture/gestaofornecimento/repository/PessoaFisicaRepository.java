@@ -5,5 +5,5 @@ import org.springframework.data.repository.CrudRepository;
 import com.accenture.gestaofornecimento.model.PessoaFisica;
 
 public interface PessoaFisicaRepository extends CrudRepository<PessoaFisica, String>{
-
+	PessoaFisica findByIdFornecedor(String idFornecedor);
 }
