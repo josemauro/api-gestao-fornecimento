@@ -22,8 +22,8 @@ public class ParceriaController {
 		
 		Parceria parceria = new Parceria();
 		
-		parceria.setEmpresa(empresa);
-		parceria.setFornecedor(fornecedor);
+//		parceria.setEmpresa(empresa);
+//		parceria.setFornecedor(fornecedor);
 		
 		parceriaRepository.save(parceria);
 		
@@ -38,8 +38,8 @@ public class ParceriaController {
 //			return "Erro ao atualizar, parceria não encontrado!";
 //		}
 		Parceria parceria = new Parceria();
-		parceria.setEmpresa(empresa);
-		parceria.setFornecedor(fornecedor);
+//		parceria.setEmpresa(empresa);
+//		parceria.setFornecedor(fornecedor);
 		
 		parceriaRepository.save(parceria);
 		
@@ -56,8 +56,8 @@ public class ParceriaController {
 	public @ResponseBody String deletar(@RequestParam String empresa, @RequestParam String fornecedor) {
 	
 		Parceria parceria = new Parceria();
-		parceria.setEmpresa(empresa);
-		parceria.setFornecedor(fornecedor);
+//		parceria.setEmpresa(empresa);
+//		parceria.setFornecedor(fornecedor);
 		
 		parceriaRepository.delete(parceria);
 		
