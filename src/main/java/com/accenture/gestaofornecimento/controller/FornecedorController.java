@@ -13,6 +13,8 @@ import com.accenture.gestaofornecimento.repository.FornecedorRepository;
 import com.accenture.gestaofornecimento.repository.PessoaFisicaRepository;
 
 import java.sql.Date;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -50,8 +52,15 @@ public class FornecedorController {
 			PessoaFisica pessoa = new PessoaFisica();
 			pessoa.setIdFornecedor(id);
 			pessoa.setRg(rg);
-			Date data = new Date(1993, 05, 16);
-			pessoa.setDataNascimento(data);
+			
+			Date data;
+			try {
+				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+				data = new Date(formato.parse(dataNascimento).getTime());
+				pessoa.setDataNascimento(data);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 			
 			pessoaRepository.save(pessoa);
 		}
@@ -87,8 +96,14 @@ public class FornecedorController {
 			pessoa.setRg(rg);			
 		}	
 		if (dataNascimento!= null) {
-			Date data = new Date(1993, 05, 16);
-			pessoa.setDataNascimento(data);
+			Date data;
+			try {
+				SimpleDateFormat formato = new SimpleDateFormat("dd/MM/yyyy"); 
+				data = new Date(formato.parse(dataNascimento).getTime());
+				pessoa.setDataNascimento(data);
+			} catch (ParseException e) {
+				e.printStackTrace();
+			}
 		}
 
 		fornecedorRepository.save(fornecedor);
