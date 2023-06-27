@@ -18,14 +18,14 @@ public class EmpresaController {
 	private EmpresaRepository empresaRepository;
 	
 	@PostMapping(path="/salvar")
-	public @ResponseBody String criarEmpresa(@RequestParam String cpnj, @RequestParam String nomeFantasia,
+	public @ResponseBody String criarEmpresa(@RequestParam String cnpj, @RequestParam String nomeFantasia,
 											 @RequestParam String cep) {
-		if (empresaRepository.findById(cpnj).isPresent()) {
+		if (empresaRepository.findById(cnpj).isPresent()) {
 			return "Erro ao salvar, empresa já existe!";
 		}
 		
 		Empresa empresa = new Empresa();
-		empresa.setCnpj(cpnj);
+		empresa.setCnpj(cnpj);
 		
 		empresa.setNomeFantasia(nomeFantasia);
 		empresa.setCep(cep);
