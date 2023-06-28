@@ -3,6 +3,7 @@ package com.accenture.gestaofornecimento.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -19,13 +20,14 @@ import org.springframework.http.ResponseEntity;
 import com.accenture.gestaofornecimento.model.Empresa;
 import com.accenture.gestaofornecimento.repository.EmpresaRepository;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/empresas")
 public class EmpresaController {
 	
 	@Autowired
 	private EmpresaRepository empresaRepository;
-	
+    
 	@PostMapping(path="/salvar")
 	public @ResponseBody String criarEmpresa(@RequestParam String cnpj, @RequestParam String nomeFantasia,
 											 @RequestParam String cep) {

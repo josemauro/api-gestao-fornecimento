@@ -1,6 +1,9 @@
 package com.accenture.gestaofornecimento.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -20,6 +23,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Id;
 
+@CrossOrigin(origins = "http://localhost:5173")
 @RestController
 @RequestMapping("/fornecedores")
 public class FornecedorController {
@@ -31,13 +35,14 @@ public class FornecedorController {
 	private PessoaFisicaRepository pessoaRepository;
 	
 	@PostMapping(path="/salvar")
-	public @ResponseBody String criarFornecedor(@RequestParam String id, @RequestParam String nome, @RequestParam String email,
+	public @ResponseBody ResponseEntity criarFornecedor(@RequestParam String id, @RequestParam String nome, @RequestParam String email,
 												@RequestParam(required = false) String rg, 
 												@RequestParam(required = false) String dataNascimento) {
 		// @ResponseBody String retornada é própria response e não o nome de uma view
 		// @RequestParam parâmetro da requisição
+		 
 		if (fornecedorRepository.findById(id).isPresent()) {
-			return "Erro ao salvar, fornecedor já existe!";
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 		
 		Fornecedor fornecedor = new Fornecedor();
@@ -64,8 +69,8 @@ public class FornecedorController {
 			
 			pessoaRepository.save(pessoa);
 		}
-		
-		return "Salvo com sucesso!";
+		return new ResponseEntity<String>("Salvo com sucesso!", HttpStatus.OK);
+
 	  }
 	
 
