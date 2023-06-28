@@ -142,7 +142,7 @@ public class FornecedorController {
 
 		PessoaFisica pessoa = pessoaRepository.findByIdFornecedor(id);
 
-		pessoaRepository.delete(pessoa);
+		if (pessoa != null) pessoaRepository.delete(pessoa);
 		fornecedorRepository.delete(fornecedor);
 
 		return "Fornecedor deletado com sucesso!";
