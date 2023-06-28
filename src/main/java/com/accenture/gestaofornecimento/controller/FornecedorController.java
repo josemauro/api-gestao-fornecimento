@@ -18,6 +18,8 @@ import com.accenture.gestaofornecimento.repository.PessoaFisicaRepository;
 import java.sql.Date;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
+import java.util.List;
+import java.util.Optional;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -118,9 +120,16 @@ public class FornecedorController {
 	  }
 
 
-	@GetMapping(path="/listar")
-	public @ResponseBody Iterable<Fornecedor> listarFornecedores() {
-		return fornecedorRepository.findAll();
+	@GetMapping(path="/listar/nome")
+	public @ResponseBody List<Fornecedor> listarFornecedoresPorId(@RequestParam String valor) {
+		return fornecedorRepository.findByNomeContaining(valor);
+		
+	}
+	
+	@GetMapping(path="/listar/id")
+	public @ResponseBody Optional<Fornecedor> listarFornecedoresPorNome(@RequestParam String valor) {
+		return fornecedorRepository.findById(valor);
+		
 	}
 	
 	@PostMapping(path="/apagar")
