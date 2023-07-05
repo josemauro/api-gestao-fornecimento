@@ -3,6 +3,7 @@ package com.accenture.gestaofornecimento.controller;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -15,9 +16,13 @@ import org.springframework.web.client.RestTemplate;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpMethod;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
 
+
 import com.accenture.gestaofornecimento.model.Empresa;
+import com.accenture.gestaofornecimento.model.Fornecedor;
 import com.accenture.gestaofornecimento.repository.EmpresaRepository;
 
 @CrossOrigin(origins = "http://localhost:5173")
@@ -29,10 +34,10 @@ public class EmpresaController {
 	private EmpresaRepository empresaRepository;
     
 	@PostMapping(path="/salvar")
-	public @ResponseBody String criarEmpresa(@RequestParam String cnpj, @RequestParam String nomeFantasia,
+	public @ResponseBody ResponseEntity criarEmpresa(@RequestParam String cnpj, @RequestParam String nomeFantasia,
 											 @RequestParam String cep) {
 		if (empresaRepository.findById(cnpj).isPresent()) {
-			return "Erro ao salvar, empresa já existe!";
+			return new ResponseEntity(HttpStatus.CONFLICT);
 		}
 		
 		Empresa empresa = new Empresa();
@@ -42,12 +47,12 @@ public class EmpresaController {
 		if (validarCEP(cep)) {
 			empresa.setCep(cep);
 		}else {
-			return "Erro ao salvar empresa, CEP inválido.";
+			return new ResponseEntity(HttpStatus.BAD_REQUEST);
 		}
 			
 		empresaRepository.save(empresa);
 		
-		return "Salvo com sucesso!";
+		return new ResponseEntity(HttpStatus.OK);
 	  }
 	
 
@@ -75,19 +80,31 @@ public class EmpresaController {
 
 
 	@GetMapping(path="/listar")
-	public @ResponseBody Iterable<Empresa> listarEmpresas() {
+	public @ResponseBody List<Empresa> listarEmpresas(@RequestParam String nome)  {
+		return empresaRepository.findByNomeFantasiaContaining(nome);
+	}
+	
+	@GetMapping(path="/listarTodos")
+	public @ResponseBody Iterable<Empresa> listarTodos() {
+
 		return empresaRepository.findAll();
 	}
 	
 	@PostMapping(path="/apagar")
-	public @ResponseBody String deletar(String cnpj) {
+	public @ResponseBody ResponseEntity deletar(String cnpj) {
 	
 		Empresa empresa = new Empresa();
 		empresa.setCnpj(cnpj);
 		
-		empresaRepository.delete(empresa);
+		try {
+			empresaRepository.delete(empresa);
+		} catch (DataIntegrityViolationException e){
+			return new ResponseEntity<String>("Erro ao deletar, verifique se existe uma parceria existente para essa empresa!", HttpStatus.CONFLICT);
+		}
 		
-		return "Empresa deletada com sucesso!";
+		
+
+		return new ResponseEntity<String>("Empresa deletada com sucesso!", HttpStatus.OK);
 	  }
 	
 	private Boolean validarCEP(String cep) {

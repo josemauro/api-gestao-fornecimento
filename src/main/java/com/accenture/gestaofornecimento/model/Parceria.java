@@ -12,12 +12,20 @@ public class Parceria {
     private ParceriaKey parceriaId;
 
     @ManyToOne
-    @MapsId("fornecedorId")
+    @MapsId("id")
     @JoinColumn(name = "fornecedor_id")
     Fornecedor fornecedor;
 
     @ManyToOne
-    @MapsId("empresaId")
+    @MapsId("cnpj")
     @JoinColumn(name = "empresa_id")
     Empresa empresa;
+    
+    public ParceriaKey getParceria() {
+        return parceriaId;
+    }
+
+    public void setParceria(ParceriaKey parceriaId) {
+        this.parceriaId = parceriaId;
+    }
 }

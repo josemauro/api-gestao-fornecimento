@@ -6,7 +6,7 @@ import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
 
 @Embeddable
-class ParceriaKey implements Serializable {
+public class ParceriaKey implements Serializable {
 
     private static final long serialVersionUID = 1L;
 
@@ -16,15 +16,19 @@ class ParceriaKey implements Serializable {
     @Column(name = "empresa_id")
     String empresaId;
     
-//    public void setFornecedor(String fornecedorId) {
-//        this.fornecedorId = fornecedorId;
-//    }
-//
-//    public String getEmpresaId() {
-//        return empresaId;
-//    }
-//
-//    public void setEmpresaId(String empresaId) {
-//        this.empresaId = empresaId;
-//    }
+    public String getFornecedorId() {
+        return fornecedorId;
+    }
+
+    public void setFornecedorId(String fornecedorId) {
+        this.fornecedorId = fornecedorId;
+    }
+
+    public String getEmpresaId() {
+        return empresaId;
+    }
+
+    public void setEmpresaId(String empresaId) {
+        this.empresaId = empresaId;
+    }
 }
